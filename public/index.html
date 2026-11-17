@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="Dashboard Klaster Logistik Penanggulangan Bencana di Indonesia. Pantau statistik dan peta sebaran klaster." name="description"/>
+<meta content="index, follow, max-image-preview:large" name="robots"/>
+<meta content="Pengelola Platform Klaster Logistik" name="author"/>
+<meta content="Klaster Logistik, Klaster Logistik Indonesia, logistik kebencanaan, penanggulangan bencana, BNPB, BPBD, peta klaster logistik" name="keywords"/>
+<link href="https://klaster-logistik.vercel.app/" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="id_ID" property="og:locale"/>
+<meta content="Dashboard Klaster Logistik" property="og:site_name"/>
+<meta content="Dashboard Klaster Logistik Indonesia | Statistik dan Peta" property="og:title"/>
+<meta content="Pantau statistik dan peta sebaran Klaster Logistik di Indonesia." property="og:description"/>
+<meta content="https://klaster-logistik.vercel.app/" property="og:url"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="Dashboard Klaster Logistik" name="twitter:title"/>
+<meta content="Pantau statistik dan peta sebaran Klaster Logistik di Indonesia." name="twitter:description"/>
+<meta content="#102a43" name="theme-color"/>
+<title>Dashboard Klaster Logistik Indonesia | Statistik dan Peta</title>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Dashboard Klaster Logistik","url":"https://klaster-logistik.vercel.app/","inLanguage":"id-ID","description":"Dashboard statistik dan peta sebaran Klaster Logistik di Indonesia."}</script>
+<link href="https://unpkg.com" rel="preconnect"/>
+<link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet"/>
+<link href="/styles.css" rel="stylesheet"/>
+</head>
+<body>
+<a class="skip-link" href="#beranda">Lewati ke dashboard</a>
+<header class="topbar">
+<div class="brand-copy">
+<h1 class="dashboard-title">Dashboard Klaster Logistik</h1>
+<p class="header-subtitle">Dashboard dan Informasi Klaster Logistik Penanggulangan Bencana di Indonesia</p>
+</div>
+<nav aria-label="Navigasi dashboard" class="main-nav"><a aria-current="page" class="main-nav-link active" href="#beranda">Ringkasan</a><a class="main-nav-link" href="#klaster">Peta &amp; Data</a></nav>
+</header>
+<main class="page">
+<section aria-label="Dashboard Klaster Logistik" id="dashboardPage">
+<nav aria-label="Filter wilayah koordinator" class="korwil-selector">
+<button class="korwil-button active" data-korwil="" type="button">Semua Wilayah</button>
+<button class="korwil-button" data-korwil="Wilayah I" type="button">Wilayah I</button>
+<button class="korwil-button" data-korwil="Wilayah II" type="button">Wilayah II</button>
+<button class="korwil-button" data-korwil="Wilayah III" type="button">Wilayah III</button>
+<button class="button-secondary korwil-refresh" id="refreshBtn" type="button">↻ Muat ulang data</button>
+</nav>
+<section aria-label="Ringkasan klaster logistik" class="stats" id="beranda">
+<article class="stat-card primary-stat"><span class="stat-label">Entitas Klaster Teridentifikasi</span><strong id="formedTotalCount">0</strong><span class="stat-foot">Termasuk kandidat sementara; bukan angka final terverifikasi</span></article>
+<article class="stat-card"><span class="stat-label"><i class="legend-dot formed"></i> Klaster Provinsi Terbentuk</span><strong id="provinceClusterCount">0</strong><span class="stat-foot">Status Terbentuk saja</span></article>
+<article class="stat-card"><span class="stat-label"><i class="legend-dot verify"></i> Klaster Kab/Kota Terbentuk</span><strong id="regencyClusterCount">0</strong><span class="stat-foot">Status Terbentuk saja</span></article>
+<article class="stat-card"><span class="stat-label"><i class="legend-dot progress"></i> Dalam Proses</span><strong id="inProgressCount">0</strong><span class="stat-foot">Semua tingkat wilayah</span></article>
+
+
+
+
+</section>
+<section class="content-grid" id="klaster">
+<article class="panel map-panel">
+<div class="panel-heading">
+<div class="map-heading-title"><h3>Peta Sebaran Klaster Logistik</h3></div>
+</div>
+<div aria-label="Peta interaktif sebaran Klaster Logistik berdasarkan provinsi" id="map" role="application">
+</div>
+<p class="map-interaction-note">Gunakan tombol +/− untuk memperbesar peta. Scroll halaman tetap berjalan saat kursor berada di atas peta.</p><p class="map-note">Peta mengikuti filter Korwil dan jenis wilayah. Pencarian teks hanya memfilter tabel.</p>
+<div class="map-legend">
+<span><i class="legend-dot formed"></i> Terbentuk</span>
+<span><i class="legend-dot progress"></i> Dalam proses</span><span><i class="legend-dot nodata"></i> Belum ada data</span>
+</div>
+</article>
+<article class="panel list-panel">
+<div class="filters">
+<label class="search-wrap"><span aria-hidden="true">⌕</span><input autocomplete="off" id="searchInput" placeholder="Cari klaster atau wilayah…" type="search"/></label><select aria-label="Filter jenis wilayah" id="typeFilter"><option value="">Semua jenis wilayah</option><option value="provinsi">Provinsi</option><option value="kabupaten-kota">Kabupaten/Kota</option></select>
+<button class="button-secondary" id="exportCsvBtn" type="button">Unduh CSV</button><button class="button-secondary" id="resetFiltersBtn" type="button">Reset filter</button><span class="result-count" id="resultCount">0 data</span><span class="small-muted">Ekspor mengikuti filter aktif; rincian cakupan dan jumlah baris disertakan di CSV.</span></div>
+<div class="table-wrap">
+<table><caption>Daftar Klaster Logistik berdasarkan ID, wilayah, Korwil, status, tahun, dan kualitas data</caption>
+<thead><tr><th aria-label="ID klaster" class="sortable" data-sort="id" role="button" tabindex="0">ID</th><th aria-label="Urutkan berdasarkan Klaster / Wilayah" class="sortable" data-sort="nama" role="button" tabindex="0">Klaster / Wilayah</th><th aria-label="Urutkan berdasarkan Korwil" class="sortable" data-sort="korwil" role="button" tabindex="0">Korwil</th><th aria-label="Urutkan berdasarkan Status" class="sortable" data-sort="status" role="button" tabindex="0">Status</th><th aria-label="Urutkan berdasarkan Tahun" class="sortable" data-sort="tahun" role="button" tabindex="0">Tahun</th><th>Kualitas Data</th></tr></thead>
+<tbody id="clusterRows"><tr><td class="empty" colspan="6">Menghubungkan data Klaster Logistik…</td></tr></tbody>
+</table>
+</div><div class="table-controls"><label for="pageSize">Baris per halaman</label><select aria-label="Jumlah baris per halaman" id="pageSize"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select><div class="pagination"><button id="prevPage" type="button">Sebelumnya</button><span id="pageInfo">Halaman 1 dari 1</span><button id="nextPage" type="button">Berikutnya</button></div></div>
+</article>
+</section>
+<section class="notice" aria-live="polite" role="status" hidden="" id="notice"></section>
+</section>
+</main>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="/history-validator.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>
